@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 
 Base = sqlalchemy.ext.declarative.declarative_base()
 
+
 class todo_item(Base):
     """Datamodel creation for Todo Item Table (1/2)"""
 
