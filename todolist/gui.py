@@ -4,7 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 from todolist.todo_list import Todolist
-from todolist.datamodel import todo_list
+from todolist.datamodel import todo_list, todo_item
 
 todolist_1 = Todolist()
 
@@ -64,10 +64,10 @@ class TaskWindow(QWidget):
         self.label_1.setFixedHeight(30)
         vBox.addWidget(self.label_1)
         self.setLayout(vBox)
-        table_id = todolist_1.get_todolist_id("title", "Einkaufsliste")
+        table_id = todolist_1.get_todolist_id("title", text)
         all_todo_items = todolist_1.get_todo_items("todo_list_id", table_id[0].todo_list_id)
+        # print(all_todo_items[0].title)
         for i in range(len(all_todo_items)):
-            print(i)
             label = TaskLabel(all_todo_items[i].title)
             vBox.addWidget(label)
 
@@ -80,7 +80,7 @@ class TaskLabel(QCheckBox):
         super().stateChanged.connect(self.action)
 
     def action(self):
-        print("test")
+        todolist_1.change_checked_status("title", self.text)
 
 
 App = QApplication(sys.argv)

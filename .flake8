@@ -1,0 +1,13 @@
+[flake8]
+ignore = 
+    QVBoxLayout, 
+    Qt, 
+    QLabel, 
+    QPushButton, 
+    QWidget, 
+    QCheckBox, 
+    QApplication
+max-line-length = 150
+exclude =
+    .git,
+    __pycache__,

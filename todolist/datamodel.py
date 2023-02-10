@@ -12,7 +12,7 @@ class todo_item(Base):
     todo_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
     title = sqlalchemy.Column(sqlalchemy.String)
     description = sqlalchemy.Column(sqlalchemy.String)
-    iscomplete = sqlalchemy.Column(sqlalchemy.Boolean)
+    iscomplete = sqlalchemy.Column(sqlalchemy.Boolean(False))
     todo_list_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("todo_list.todo_list_id"))
 
 

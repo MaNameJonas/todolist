@@ -4,8 +4,9 @@ import sqlalchemy as sql
 import sqlalchemy.orm
 from todolist.datamodel import Base, todo_list, todo_item
 
+
 class Todolist():
- 
+
     def __init__(self) -> None:
         db_connection = sqlalchemy.create_engine("sqlite:///todolist_database.db")
         Base.metadata.create_all(db_connection)
@@ -78,6 +79,27 @@ class Todolist():
         session = self.session_factory()
         return session.query(todo_list).filter(getattr(todo_list, column) == value).all()
 
+    def check_todo_item(self, column, value):
+        session = self.session_factory()
+        tmp = session.query(todo_item).filter(getattr(todo_item, column) == value).all()
+        if tmp[0].iscomplete is False:
+            self.update(todo_item, column, value, True, "iscomplete")
+
+    def uncheck_todo_item(self, column, value):
+        session = self.session_factory()
+        tmp = session.query(todo_item).filter(getattr(todo_item, column) == value).all()
+        if tmp[0].iscomplete is True:
+            self.update(todo_item, column, value, True, "iscomplete")
+
+    def change_checked_status(self, column, value):
+        session = self.session_factory()
+        tmp = session.query(todo_item).filter(getattr(todo_item, column) == value).all()
+        if tmp[0].iscomplete is True:
+            self.update(todo_item, column, value, False, "iscomplete")
+            print(tmp[0].iscomplete)
+        elif tmp[0].iscomplete is False:
+            self.update(todo_item, column, value, True, "iscomplete")
+            print(tmp[0].iscomplete)
 
 if __name__ == "__main__":
     Kaufeinliste = Todolist()
@@ -91,5 +113,7 @@ if __name__ == "__main__":
     # Kaufeinliste.update(todo_item, "todo_id", 2, "Brot einkaufen", "description")
     # print(Kaufeinliste.select(todo_list, "title", "Morgenroutine", "todo_list_id"))
     # print(Kaufeinliste.get_todolist_id("title", "Einkaufsliste"))
-    print(Kaufeinliste.get_todo_items())
+    # print(Kaufeinliste.get_todo_items("todo_list_id", 3)[0].title)
+    # print(Kaufeinliste.get_todolist_id())
+    Kaufeinliste.change_checked_status("todo_list_id", 3)
     # print(Kaufeinliste.get_todolists())
