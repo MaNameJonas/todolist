@@ -101,11 +101,19 @@ class Todolist():
             self.update(todo_item, column, value, True, "iscomplete")
             print(tmp[0].iscomplete)
 
+    def check_existence(self, table, column, value):
+        session = self.session_factory()
+        if len(session.query(table).filter(getattr(table, column) == value).all()) == 0:
+            return False
+        elif len(session.query(table).filter(getattr(table, column) == value).all()) is not None:
+            return True
+
+
 if __name__ == "__main__":
     Kaufeinliste = Todolist()
     # Kaufeinliste.create_todo_list("Morgenroutine", "blau")
     # Kaufeinliste.create_todo_list("Hausputz", "grün")
-    # Kaufeinliste.create_todo_item("Klo putzen", "Putzmittel kaufen!", "Hausputz")
+    # Kaufeinliste.create_todo_item("title1", "description1", "Hausputz")
     # Kaufeinliste.create_todo_item("Zähne putzen", "Mit Zahnpasta", "Morgenroutine")
     # Kaufeinliste.create_todo_item("Duschen", "Mit Wasser", "Morgenroutine")
     # Kaufeinliste.create_todo_item("Frühstücken", "Toast, Kaffe, Apfel", "Morgenroutine")
@@ -115,5 +123,7 @@ if __name__ == "__main__":
     # print(Kaufeinliste.get_todolist_id("title", "Einkaufsliste"))
     # print(Kaufeinliste.get_todo_items("todo_list_id", 3)[0].title)
     # print(Kaufeinliste.get_todolist_id())
-    Kaufeinliste.change_checked_status("todo_list_id", 3)
+    # Kaufeinliste.change_checked_status("todo_list_id", 3)
     # print(Kaufeinliste.get_todolists())
+    Kaufeinliste.delete(todo_list, "title", "Change_Test_Title")
+    Kaufeinliste.check_existence(todo_item, "todo_id", 2)
